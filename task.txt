@@ -1,0 +1,19 @@
+
+1. create bucket
+gsutil mb gs://chethana-bucket/
+
+2. Upload Python script file
+gsutil cp C:/work/april.py gs://chethana-bucket/scripts/
+
+
+3.Upload jar file
+gsutil cp C:/work/mysql-connector-j-8.0.33.jar gs://chethana-bucket/jar/
+
+
+4.create a new cluster
+gcloud dataproc clusters create training-cluster --region=us-central1 --zone=us-central1-a --single-node --master-machine-type=n1-standard-2 --image-version=2.0-debian10
+
+
+
+5.submit job
+gcloud dataproc jobs submit pyspark gs://chethana-bucket/scripts/april.py --cluster=training-cluster --region=us-central1 --jars=gs://chethana-bucket/jar/mysql-connector-j-8.0.33.jar --properties=spark.driver.memory=4g,spark.executor.memory=4g
