@@ -1,0 +1,12 @@
+gsutil mb gs://chethana-bucket/
+
+
+gsutil cp C:/work/sales_data.csv gs://chethana-bucket/injection/
+
+gsutil cp C:/work/sales_csv_analysis.py gs://chethana-bucket/scripts/
+
+gcloud dataproc clusters create training-cluster --region=us-central1 --zone=us-central1-a --single-node 
+--master-machine-type=n1-standard-2 --image-version=2.0-debian10
+
+
+gcloud dataproc jobs submit pyspark gs://chethana-bucket/scripts/sales_csv_analysis.py --cluster=training-cluster --region=us-central1
